@@ -6,8 +6,9 @@ class CustomFormInput extends StatefulWidget {
   final hint;
   final icon;
   final type;
+  final updatableInputFunction;
 
-  CustomFormInput(this.title, this.hint, this.icon, this.type);
+  CustomFormInput(this.title, this.hint, this.icon, this.type, this.updatableInputFunction);
 
   @override
   CustomFormInputState createState() => CustomFormInputState();
@@ -42,7 +43,9 @@ class CustomFormInputState extends State<CustomFormInput> {
             child: TextFormField(
               obscureText: _obscureText,
               onChanged: (value) {
-                setState(() {});
+                setState(() {
+                  widget.updatableInputFunction(value);
+                });
               },
               controller: _customInputController,
               decoration: InputDecoration(
