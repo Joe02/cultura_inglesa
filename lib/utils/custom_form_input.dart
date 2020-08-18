@@ -8,7 +8,8 @@ class CustomFormInput extends StatefulWidget {
   final type;
   final updatableInputFunction;
 
-  CustomFormInput(this.title, this.hint, this.icon, this.type, this.updatableInputFunction);
+  CustomFormInput(
+      this.title, this.hint, this.icon, this.type, this.updatableInputFunction);
 
   @override
   CustomFormInputState createState() => CustomFormInputState();
@@ -22,7 +23,7 @@ class CustomFormInputState extends State<CustomFormInput> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: 10,
+        vertical: 5,
         horizontal: 15,
       ),
       child: Column(
@@ -30,11 +31,15 @@ class CustomFormInputState extends State<CustomFormInput> {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Align(
-                alignment: Alignment.topLeft,
-                child: widget.title == "" ? Container() : Text(
-                  widget.title,
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                )),
+              alignment: Alignment.topLeft,
+              child: widget.title == ""
+                  ? Container()
+                  : Text(
+                      widget.title,
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+                    ),
+            ),
           ),
           Card(
             shape: RoundedRectangleBorder(
@@ -62,29 +67,34 @@ class CustomFormInputState extends State<CustomFormInput> {
                         ? Colors.grey[600]
                         : Colors.blue),
                 suffixIcon: GestureDetector(
-                    onTap: () {
-                      if (widget.type == "Text") {
-                        setState(() {
-                          _customInputController.clear();
-                        });
-                      } else {
-                        setState(() {
+                  onTap: () {
+                    if (widget.type == "Text") {
+                      setState(() {
+                        _customInputController.clear();
+                      });
+                    } else {
+                      setState(
+                        () {
                           _obscureText = !_obscureText;
-                        });
-                      }
-                    },
-                    child: widget.type == "Text"
-                        ? Icon(Icons.clear,
-                            color: _customInputController.text == ""
-                                ? Colors.grey[600]
-                                : Colors.blue)
-                        : Icon(
-                            _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: _customInputController.text == ""
-                                ? Colors.grey[600]
-                                : Colors.blue)),
+                        },
+                      );
+                    }
+                  },
+                  child: widget.type == "Text"
+                      ? Icon(
+                          Icons.clear,
+                          color: _customInputController.text == ""
+                              ? Colors.grey[600]
+                              : Colors.blue,
+                        )
+                      : Icon(
+                          _obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: _customInputController.text == ""
+                              ? Colors.grey[600]
+                              : Colors.blue),
+                ),
               ),
             ),
           ),

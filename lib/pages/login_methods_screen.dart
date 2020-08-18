@@ -15,15 +15,15 @@ class LoginMethodsScreenState extends State<LoginMethodsScreen> {
   goToPage(String page) {
     switch(page){
       case "passwordReset": {
-        _pageViewController.animateTo(0, duration: Duration(milliseconds: 400), curve: Curves.linear);
+        _pageViewController.animateToPage(0, duration: Duration(milliseconds: 1000), curve: Curves.decelerate);
       }
       break;
       case "Login": {
-        _pageViewController.animateTo(1, duration: Duration(milliseconds: 400), curve: Curves.linear);
+        _pageViewController.animateToPage(1, duration: Duration(milliseconds: 1000), curve: Curves.decelerate);
       }
       break;
       case "Register": {
-        _pageViewController.animateTo(2, duration: Duration(milliseconds: 400), curve: Curves.linear);
+        _pageViewController.animateToPage(2, duration: Duration(milliseconds: 1000), curve: Curves.decelerate);
       }
       break;
     }
@@ -33,27 +33,53 @@ class LoginMethodsScreenState extends State<LoginMethodsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[900],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 30.0),
-            child: Container(
-                child: FlutterLogo(
-                  size: 200,
-                )),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () {
+                    ///TODO Open help menu.
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 50, top: 50,),
+                    child: Icon(Icons.info, size: 30, color: Colors.white,),
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 30.0),
+                      child: Container(
+                          child: FlutterLogo(
+                            size: 200,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: PageView(
+                      controller: _pageViewController,
+                      children: <Widget>[
+                        PasswordResetPage(goToPage),
+                        LoginScreenPage(goToPage),
+                        RegisterScreenPage(goToPage)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          Expanded(
-            child: PageView(
-              controller: _pageViewController,
-              children: <Widget>[
-                PasswordResetPage(),
-                LoginScreenPage(),
-                RegisterScreenPage()
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

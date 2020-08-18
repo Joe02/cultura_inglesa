@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class LoginScreenPage extends StatefulWidget {
+  final goToPage;
+
+  LoginScreenPage(this.goToPage);
+
   @override
   LoginScreenPageState createState() => LoginScreenPageState();
 }
@@ -32,31 +36,36 @@ class LoginScreenPageState extends State<LoginScreenPage> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 5,
+              horizontal: MediaQuery
+                  .of(context)
+                  .size
+                  .width / 5,
             ),
             child: Card(
               elevation: 5,
               color: Colors.grey[100],
               shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1.0, color: Colors.grey[700]),
                 borderRadius: BorderRadius.all(
                   Radius.circular(25),
                 ),
               ),
               child: Column(
                 children: <Widget>[
+                  SizedBox(height: 10,),
                   CustomFormInput(
-                    "Usuário",
+                    "",
                     "Digite seu usuário",
                     Icons.supervised_user_circle,
                     "Text",
-                    updateUserInput
+                    updateUserInput,
                   ),
                   CustomFormInput(
-                    "Senha",
+                    "",
                     "Digite sua senha",
                     Icons.lock,
                     "Password",
-                    updatePasswordInput
+                    updatePasswordInput,
                   ),
                   buildForgotPasswordOption(),
                   buildSubmitButton(),
@@ -73,14 +82,19 @@ class LoginScreenPageState extends State<LoginScreenPage> {
   buildForgotPasswordOption() {
     return Align(
       alignment: Alignment.topRight,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15.0, top: 15.0, bottom: 5.0),
-        child: Text(
-          "Esqueceu sua senha?",
-          style: TextStyle(
-            fontSize: 17,
-            color: Colors.blue[600],
-            fontWeight: FontWeight.w500,
+      child: GestureDetector(
+        onTap: () {
+          widget.goToPage("passwordReset");
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 15.0, top: 15.0, bottom: 5.0),
+          child: Text(
+            "Esqueceu sua senha?",
+            style: TextStyle(
+              fontSize: 17,
+              color: Colors.blue[600],
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
@@ -100,7 +114,9 @@ class LoginScreenPageState extends State<LoginScreenPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
                 color: Colors.blueAccent,
-                onPressed: () {},
+                onPressed: () {
+                  onSubmit();
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
@@ -126,22 +142,47 @@ class LoginScreenPageState extends State<LoginScreenPage> {
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 20),
-          child: RichText(
-            text: TextSpan(
-              text: "Não possui uma conta?",
-              style: TextStyle(fontSize: 17, color: Colors.grey[800]),
-              children: <TextSpan>[
-                TextSpan(
-                    text: " Crie uma agora!",
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold))
-              ],
+          child: GestureDetector(
+            onTap: () {
+              widget.goToPage("Register");
+            },
+            child: RichText(
+              text: TextSpan(
+                text: "Não possui uma conta?",
+                style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: " Crie uma agora!",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold))
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  onSubmit() {
+    var error = "";
+    bool emailValidation;
+    if (emailValidation = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(userInput) == false) {
+      error = "Email inválido.";
+    } else if (passwordInput.length < 6) {
+      error = "A senha deve conter mais de 6 caracteres.";
+    }
+
+    if (error.isNotEmpty) {
+      Scaffold.of(context).hideCurrentSnackBar();
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(error),
+        duration: Duration(seconds: 4),
+      ));
+    }
   }
 }
