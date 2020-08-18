@@ -1,16 +1,16 @@
 import 'package:cultura_inglesa/utils/custom_form_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-class LoginScreenPage extends StatefulWidget {
+class RegisterScreenPage extends StatefulWidget {
   @override
-  LoginScreenPageState createState() => LoginScreenPageState();
+  RegisterScreenPageState createState() => RegisterScreenPageState();
 }
 
-class LoginScreenPageState extends State<LoginScreenPage> {
+class RegisterScreenPageState extends State<RegisterScreenPage> {
   var userInput = "";
   var passwordInput = "";
+  var passwordConfirmationInput = "";
 
   void updateUserInput(String updatedValue) {
     setState(() {
@@ -20,7 +20,13 @@ class LoginScreenPageState extends State<LoginScreenPage> {
 
   void updatePasswordInput(String updatedValue) {
     setState(() {
-      passwordInput = "";
+      passwordInput = updatedValue;
+    });
+  }
+
+  void updatePasswordConfirmationInput(String updatedValue) {
+    setState(() {
+      passwordConfirmationInput = updatedValue;
     });
   }
 
@@ -45,42 +51,30 @@ class LoginScreenPageState extends State<LoginScreenPage> {
               child: Column(
                 children: <Widget>[
                   CustomFormInput(
-                    "Usuário",
-                    "Digite seu usuário",
-                    Icons.supervised_user_circle,
-                    "Text",
-                    updateUserInput
+                      "Usuário",
+                      "Digite seu usuário",
+                      Icons.supervised_user_circle,
+                      "Text",
+                      updateUserInput
                   ),
                   CustomFormInput(
-                    "Senha",
-                    "Digite sua senha",
-                    Icons.lock,
-                    "Password",
-                    updatePasswordInput
+                      "Senha",
+                      "Digite sua senha",
+                      Icons.lock_outline,
+                      "Password",
+                      updatePasswordInput
                   ),
-                  buildForgotPasswordOption(),
+                  CustomFormInput(
+                      "Confirmação",
+                      "Confirme sua senha",
+                      Icons.lock,
+                      "Password",
+                      updatePasswordConfirmationInput
+                  ),
                   buildSubmitButton(),
-                  buildRegisterOption(),
                 ],
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  buildForgotPasswordOption() {
-    return Align(
-      alignment: Alignment.topRight,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15.0, top: 15.0, bottom: 5.0),
-        child: Text(
-          "Esqueceu sua senha?",
-          style: TextStyle(
-            fontSize: 17,
-            color: Colors.blue[600],
-            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -104,7 +98,7 @@ class LoginScreenPageState extends State<LoginScreenPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
-                    "Continuar",
+                    "Confirmar",
                     style: TextStyle(
                         color: Colors.white, fontSize: 20, letterSpacing: 1),
                   ),
@@ -113,34 +107,6 @@ class LoginScreenPageState extends State<LoginScreenPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  buildRegisterOption() {
-    return InkWell(
-      onTap: () {
-        //TODO Navigate to Register page
-      },
-      child: Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 20),
-          child: RichText(
-            text: TextSpan(
-              text: "Não possui uma conta?",
-              style: TextStyle(fontSize: 17, color: Colors.grey[800]),
-              children: <TextSpan>[
-                TextSpan(
-                    text: " Crie uma agora!",
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold))
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

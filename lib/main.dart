@@ -1,4 +1,4 @@
-import 'package:cultura_inglesa/pages/login_screen_page.dart';
+import 'package:cultura_inglesa/pages/login_methods_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: LoginScreenPage(),
+        backgroundColor: Colors.blue[900],
+        body: LoginMethodsScreen(),
       ),
     );
   }

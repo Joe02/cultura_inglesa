@@ -31,7 +31,7 @@ class CustomFormInputState extends State<CustomFormInput> {
             padding: const EdgeInsets.only(left: 10),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
+                child: widget.title == "" ? Container() : Text(
                   widget.title,
                   style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                 )),
